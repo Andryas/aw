@@ -12,7 +12,7 @@
 #' @export
 cut2 <- function(x, breaks, max_num = NULL, ...) {
   fx <- breaks
-  fx_label <- keymaker::format_num(fx)
+  fx_label <- format_num(fx)
   if (!is.null(max_num) & is.numeric(max_num)) {
     fx_label[fx_label == "Inf"] <- format_num(max_num)
   }
