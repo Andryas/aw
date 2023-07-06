@@ -1,0 +1,11 @@
+Package: aw
+Title: A toolbox
+Version: 1.0.0
+Authors@R: 
+    person("Andryas", "Wavrzencza", , "Andryaas@gmail.com", role = c("aut", "cre"))
+Description: It contains some facilities function to work with R
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Depends:
+    R (>= 3.5.0)
