@@ -1,18 +1,29 @@
-#' @title simple_summarize
+#' Summarize Data with Descriptive Statistics and Quantiles
 #'
-#' @description
-#' This function works only for numeric variables and
-#' create a simple summary that contains min, q(0.25),
-#' average, median, q(0.75), max, total_obs, total_na,
-#' pct_na
+#' This function provides a summary of the specified variables in the given data frame,
+#' including descriptive statistics such as minimum, average, median, maximum, standard deviation,
+#' and specified quantiles (defaulting to 25th and 75th percentiles).
 #'
-#' @param data dataset
-#' @param vars passed to dplyr::summarize, it can be a vector buy
-#' works only for numeric variables.
-#' @param ... passed to dplyr::group_by, it can be a vector
+#' @param data A data frame containing the variables to be summarized.
+#' @param vars The variables to be summarized. Can be specified as unquoted variable names.
+#' @param ... Additional grouping variables if summarization is done by groups. Defaults to NULL.
+#'
+#' @return A data frame with summarized statistics for each variable, including minimum (min),
+#' 25th percentile (q25), average (avg), median (med), 75th percentile (q75), maximum (max),
+#' standard deviation (sd), total observations (total_obs), total missing values (total_na),
+#' and percentage of missing values (pct_na).
+#'
+#' @examples
+#' \dontrun{
+#' # Summarize a single variable without grouping
+#' summarize_stats(mtcars, mpg)
+#'
+#' # Summarize multiple variables by grouping
+#' summarize_stats(mtcars, c(mpg, disp), cyl)
+#' }
 #'
 #' @export
-simple_summarize <- function(data, vars, ...) {
+summarize_stats <- function(data, vars, ...) {
     # https://tbradley1013.github.io/2018/10/01/calculating-quantiles-for-groups-with-dplyr-summarize-and-purrr-partial/
     p <- c(0.25, 0.75)
     p_names <- purrr::map_chr(p, ~ paste0("q", .x * 100))
@@ -74,6 +85,3 @@ simple_summarize <- function(data, vars, ...) {
             dplyr::bind_rows()
     }
 }
-
-# simple_summarize(iris, var = eval(c("Sepal.Length", "Petal.Length")))
-# simple_summarize(iris, var = eval(c("Sepal.Length", "Petal.Length")), Species)

@@ -1,6 +1,21 @@
-#' @title GT check uncheck
+# TODO add example
+#' Generate Checkmark or Cross Icons in HTML for Boolean Values
 #'
-#' @param x TRUE for check, FALSE for times
+#' This function generates HTML code with checkmark or cross icons based on the input boolean values.
+#'
+#' @param x A logical vector representing boolean values to generate icons for.
+#'
+#' @return A character vector containing HTML code with checkmark or cross icons.
+#'
+#' @details
+#' The function maps over the input boolean vector and generates HTML code with checkmark (green) or cross (red) icons.
+#' It utilizes the `fontawesome` package to create the icons.
+#'
+#' @examples
+#' \dontrun{
+#' # Generate icons for boolean values
+#' icons_html <- gt_check_uncheck(c(TRUE, FALSE, TRUE))
+#' }
 #'
 #' @export
 gt_check_uncheck <- function(x) {
