@@ -2,14 +2,35 @@
 % Please edit documentation in R/strip_glm.R
 \name{strip_glm}
 \alias{strip_glm}
-\title{Strip GLM}
+\title{Strip Unused Components from a Generalized Linear Model Object}
 \usage{
 strip_glm(cm)
 }
 \arguments{
-\item{cm}{a lm or glm object}
+\item{cm}{A generalized linear model object to be stripped.}
+}
+\value{
+A modified GLM object with unnecessary components removed to reduce its size.
 }
 \description{
-Reduce the model size fitted by glm or lm, getting the
-coefficients and using only a predictive model.
+This function removes unnecessary components from a generalized linear model (GLM) object,
+reducing its size and memory footprint. It is particularly useful when saving GLM objects
+in Shiny apps or other scenarios where minimizing object size is important.
+}
+\details{
+The function removes the following components from the GLM object:
+\itemize{
+\item \code{y} and \code{model} elements
+\item \code{residuals}, \code{fitted.values}, \code{effects}, \code{qr$qr}, \code{linear.predictors},
+\code{weights}, \code{prior.weights}, and \code{data} elements
+\item \code{family} components (\code{variance}, \code{dev.resids}, \code{aic}, \code{validmu}, \code{simulate})
+\item Attributes of \code{terms} and \code{formula}
+}
+}
+\examples{
+\dontrun{
+# Strip unused components from a GLM object
+stripped_glm <- strip_glm(fitted_glm)
+}
+
 }

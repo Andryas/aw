@@ -64,3 +64,25 @@ print.palette <- function(x, ...) {
     rect(0, 0.9, n + 1, 1.1, col = rgb(1, 1, 1, 0.8), border = NA)
     text((n + 1) / 2, 1, labels = attr(x, "name"), cex = 1, family = "serif")
 }
+
+#' Numeric Color Ramp Function
+#'
+#' This function generates a color ramp based on numeric input values.
+#'
+#' @param x A numeric vector representing the values to be color-mapped.
+#' @param colors A vector of three color names defining the gradient.
+#'               The default is c("red", "white", "darkgreen").
+#' @return A character vector of RGB color values based on the input numeric vector.
+#' @examples
+#'
+#' data <- c(1, 2, 3, 4, 5)
+#' colors <- colorRampNumeric(data)
+#' plot(data, col = colors, pch = 16, cex = 2)
+#'
+#' @export
+colorRampNumeric <- function(x, colors = c("red", "white", "darkgreen")) {
+    cr <- colorRamp(colors)
+    crm <- cr((x - min(x)) / (max(x) - min(x)))
+    crm <- apply(crm, 2, as.integer)
+    rgb(crm[, 1], crm[, 2], crm[, 3], maxColorValue = 255)
+}
