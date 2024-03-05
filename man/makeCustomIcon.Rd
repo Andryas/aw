@@ -2,22 +2,33 @@
 % Please edit documentation in R/leaflet.R
 \name{makeCustomIcon}
 \alias{makeCustomIcon}
-\title{Create a custom Leaflet icon with optional fill color.}
+\title{Create a custom leaflet icon.}
 \usage{
-makeCustomIcon(icon, fill = NULL, iconWidth = 48, iconHeight = 48)
+makeCustomIcon(
+  icon,
+  fill = NULL,
+  iconWidth = 48,
+  iconHeight = 48,
+  source = "fontawesome",
+  solid = TRUE
+)
 }
 \arguments{
-\item{icon}{A character vector specifying the icon name.}
+\item{icon}{Character vector containing the name of the icon.}
 
-\item{fill}{A character vector specifying the fill color (default is NULL).}
+\item{fill}{Character vector specifying the color to fill the icon. Default is NULL.}
 
-\item{iconWidth}{An integer specifying the icon width (default is 48).}
+\item{iconWidth}{Numeric vector specifying the width of the icon. Default is 48.}
 
-\item{iconHeight}{An integer specifying the icon height (default is 48).}
+\item{iconHeight}{Numeric vector specifying the height of the icon. Default is 48.}
+
+\item{source}{Character vector specifying the source of the icon ("fontawesome" or "bootstrap"). Default is "fontawesome".}
+
+\item{solid}{If source "fontawesome", a logical vector indicating whether to use solid icons (TRUE) or regular icons (FALSE). Default is TRUE.}
 }
 \value{
-A Leaflet icon object.
+A leaflet icon object.
 }
 \description{
-Create a custom Leaflet icon with optional fill color.
+This function downloads SVG icons from Font Awesome or Bootstrap Icons based on the specified source and icon name.
 }

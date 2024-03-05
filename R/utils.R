@@ -208,3 +208,67 @@ clean_list <- function(x) {
         return(x)
     }
 }
+
+
+#' @title brl
+#'
+#' @description Transform a number into real currency in the follow format
+#' xxx,xxx,xxx.xx
+#'
+#' @param x a real number
+#'
+#' @export
+brl <- function(x, digits = 2) {
+    if (!is.null(x)) {
+        as.character(formattable::currency(x, "R$ ", big.mark = ".", dec = ",", digits = digits))
+    } else {
+        return(NA)
+    }
+}
+
+#' Format a Number with Customized Big Mark and Decimal Mark
+#'
+#' This function formats a number with options for setting the big mark and decimal mark.
+#' It returns the number as a character string with specified formatting.
+#'
+#' @param x Numeric vector to be formatted.
+#' @param big Character string to be used as the big mark (thousands separator). Default is a period.
+#' @param dec Character string to be used as the decimal mark. Default is a comma.
+#' @param digits Number of decimal places to round to. Default is 2.
+#'
+#' @return A character vector of the formatted numbers.
+#'
+#' @examples
+#' num(1234.56) # "1.234,56"
+#' num(1234.56, big = ",", dec = ".") # "1,234.56"
+#'
+#' @export
+num <- function(x, big = ".", dec = ",", digits = 2) {
+    as.character(format(as.numeric(x), big.mark = big, decimal.mark = dec, digits = 2, scientific = FALSE))
+}
+
+#' Convert Numeric to Percentage with Customized Formatting
+#'
+#' This function converts numeric values to percentages with options for big mark,
+#' decimal mark, and number of digits. It utilizes the 'scales' package for percentage conversion.
+#'
+#' @param x Numeric vector to be converted to percentage.
+#' @param big Character string to be used as the big mark (thousands separator). Default is a period.
+#' @param dec Character string to be used as the decimal mark. Default is a comma.
+#' @param digits Number of decimal places the percentage should be rounded to. Default is 2.
+#'
+#' @return A character vector of the formatted percentages.
+#'
+#' @examples
+#' pct(0.123456) # "12,35%"
+#' pct(0.123456, big = ",", dec = ".", digits = 3) # "12.346%"
+#'
+#' @export
+pct <- function(x, big = ".", dec = ",", digits = 2) {
+    scales::percent(
+        x,
+        accuracy = 1 / (10^digits),
+        big.mark = big,
+        decimal.mark = dec
+    )
+}

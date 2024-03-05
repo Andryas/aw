@@ -2,72 +2,88 @@
 % Please edit documentation in R/leaflet.R
 \name{addCustomMarkers}
 \alias{addCustomMarkers}
-\title{Add custom markers to a Leaflet map.}
+\title{Add custom markers to a leaflet map based on provided data.}
 \usage{
-addCustomMarkers(map, data)
+addCustomMarkers(
+  map,
+  data,
+  layers_control_position = "bottomleft",
+  legend_position = "topright"
+)
 }
 \arguments{
-\item{map}{A Leaflet map object.}
+\item{map}{A leaflet map object.}
 
-\item{data}{A data frame containing marker information.}
+\item{data}{Data frame containing information for markers. Should have columns like 'lon', 'lat', 'fill', 'icon', 'iconWidth', 'iconHeight', 'group', 'source', and 'solid'.}
+
+\item{layers_control_position}{Position of the layers control on the map. Default is "bottomleft".}
+
+\item{legend_position}{Position of the legend on the map. Default is "topright".}
 }
 \value{
-A Leaflet map object with custom markers added.
+A leaflet map object with added custom markers.
 }
 \description{
-Add custom markers to a Leaflet map.
+This function takes a leaflet map object, data containing marker information, and optional parameters to customize the map appearance.
 }
 \examples{
-
-fill_tb <- tibble::tibble(
-    type = unique(centris_ca$type)
-) |>
-    dplyr::mutate(
-        fill = RColorBrewer::brewer.pal(length(unique(type)), "Set1")
-    )
-
 map <- leaflet::leaflet() |>
-    leaflet::addTiles()
+    leaflet::addTiles() |>
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.Positron)
 
 data <- centris_ca |>
+    dplyr::rename(group = property_type) |>
     dplyr::mutate(
         iconWidth = 28,
         iconHeight = 28,
-        icon = "geo-fill"
+        icon = "map-marker"
     ) |>
     dplyr::left_join(
-        fill_tb,
-        by = "type"
+        tibble::tibble(
+            group = unique(centris_ca$property_type),
+            fill = wesanderson::wes_palette("Zissou1")[-1]
+        ),
+        by = "group"
     )
 
 map |>
-    addCustomMarkers(data) |>
-    leaflet::addLegend(
-        colors = fill_tb$fill,
-        labels = fill_tb$type
-    )
-
-fill_tb$icon <- c("building", "building", "building", "house-fill", "building", "building", "pin-map", "geo-fill")
+    addCustomMarkers(data)
 
 data <- centris_ca |>
+    dplyr::rename(group = property_type) |>
     dplyr::mutate(
         iconWidth = 28,
         iconHeight = 28
     ) |>
     dplyr::left_join(
-        fill_tb,
-        by = "type"
+        tibble::tibble(
+            group = unique(centris_ca$property_type),
+            fill = wesanderson::wes_palette("Zissou1")[-1],
+            icon = c("building", "building", "home", "building")
+        ),
+        by = "group"
     )
 
 map |>
-    addCustomMarkers(data) |>
-    leaflet::addLegend(
-        colors = fill_tb$fill,
-        labels = fill_tb$type
+    addCustomMarkers(data)
+
+data <- centris_ca |>
+    dplyr::rename(group = property_type) |>
+    dplyr::mutate(
+        iconWidth = 28,
+        iconHeight = 28,
+        source = "bootstrap"
     ) |>
-    leaflet::addLayersControl(
-        overlayGroups = fill_tb$icon,
-        options = leaflet::layersControlOptions(collapsed = FALSE),
-        position = "bottomleft"
+    dplyr::left_join(
+        tibble::tibble(
+            group = unique(centris_ca$property_type),
+            fill = wesanderson::wes_palette("Zissou1")[-1],
+            icon = c("building", "building", "house-fill", "building")
+        ),
+        by = "group"
     )
+
+map |>
+    addCustomMarkers(data, layers_control_position = FALSE)
+
 }
